@@ -1,0 +1,478 @@
+/*
+ * app.css · Armazón y pantallas de Alacena. Solo usa los tokens de tokens.css.
+ * Celular (< 720 px): cabecera con el logotipo, contenido y barra inferior.
+ * PC (≥ 720 px): barra lateral compacta que se abre con el mouse o el teclado y corre el contenido.
+ */
+
+@font-face {
+  font-family: 'Figtree';
+  src: url('../fuentes/figtree.woff2') format('woff2');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Franja del modo prueba: fija arriba; su lugar se reserva desde el primer dibujo. */
+.franja-prueba {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--alto-franja) + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) var(--margen-lateral) 0;
+  background: var(--color-alerta);
+  color: var(--color-sobre-acento);
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-negrita);
+  letter-spacing: 0.02em;
+}
+html[data-modo-prueba] body { padding-top: var(--alto-franja); }
+
+:root {
+  --alto-franja: 32px;
+  /* Derivado del acento: fondo de la pastilla del destino actual. */
+  --color-acento-tenue: color-mix(in srgb, var(--color-acento) 14%, transparent);
+  --ancho-nav-compacta: 72px;
+  --ancho-nav-abierta: 232px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente);
+  font-size: var(--texto-md);
+  line-height: var(--interlineado);
+}
+
+img, svg { display: block; }
+
+:focus-visible {
+  outline: 2px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+main:focus, h1:focus { outline: none; }
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Ir al contenido: solo aparece con el teclado. */
+.saltar {
+  position: fixed;
+  top: calc(var(--esp-2) + env(safe-area-inset-top, 0px));
+  left: var(--esp-2);
+  z-index: 30;
+  padding: var(--esp-2) var(--esp-4);
+  border-radius: var(--radio-pastilla);
+  background: var(--color-superficie);
+  color: var(--color-acento);
+  font-weight: var(--peso-negrita);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.saltar:focus-visible { transform: none; }
+
+/* Logotipo: el nombre a medio ícono de distancia. */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-4);
+  font-size: var(--texto-xl);
+  font-weight: var(--peso-extra);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.logo img { width: 32px; height: 32px; flex: 0 0 auto; }
+
+.cabecera {
+  padding: calc(var(--esp-4) + env(safe-area-inset-top, 0px)) max(var(--margen-lateral), env(safe-area-inset-right, 0px)) var(--esp-2) max(var(--margen-lateral), env(safe-area-inset-left, 0px));
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--esp-2) max(var(--margen-lateral), env(safe-area-inset-right, 0px)) calc(112px + env(safe-area-inset-bottom, 0px)) max(var(--margen-lateral), env(safe-area-inset-left, 0px));
+}
+
+.titulo {
+  margin: var(--esp-1) 0 var(--esp-4);
+  font-size: var(--texto-2xl);
+  font-weight: var(--peso-negrita);
+  line-height: var(--interlineado-ajustado);
+}
+.subtitulo {
+  margin: 0;
+  font-size: var(--texto-lg);
+  font-weight: var(--peso-negrita);
+  line-height: var(--interlineado-ajustado);
+}
+
+/* Pantalla sin datos: una frase y un botón, centrados. */
+.vacio {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-4);
+  text-align: center;
+}
+.vacio p { margin: 0; }
+
+.boton-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--alto-boton-principal);
+  padding: 0 var(--esp-6);
+  border-radius: var(--radio-pastilla);
+  background: var(--color-acento);
+  color: var(--color-sobre-acento);
+  font-weight: var(--peso-extra);
+  text-decoration: none;
+}
+
+.boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--alto-boton);
+  padding: 0 var(--esp-5);
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-pastilla);
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  font: inherit;
+  font-weight: var(--peso-negrita);
+  cursor: pointer;
+}
+
+.boton-texto {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--objetivo-tactil);
+  padding: 0 var(--esp-1);
+  border: 0;
+  background: none;
+  color: var(--color-acento);
+  font: inherit;
+  font-weight: var(--peso-negrita);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Ajustes */
+.seccion { display: grid; gap: var(--esp-2); margin-bottom: var(--esp-6); }
+
+.segmentado {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-pastilla);
+  background: var(--color-superficie);
+}
+.segmentado button {
+  flex: 1;
+  min-height: var(--objetivo-tactil);
+  padding: 0 var(--esp-2);
+  border: 0;
+  border-radius: var(--radio-pastilla);
+  background: none;
+  color: var(--color-texto);
+  font: inherit;
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-semi);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color var(--duracion-corta) var(--curva);
+}
+.segmentado button[aria-pressed="true"] {
+  background: var(--color-acento);
+  color: var(--color-sobre-acento);
+}
+
+.tarjeta {
+  display: grid;
+  gap: 2px;
+  padding: var(--esp-4);
+  border: var(--borde-tarjeta);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra-tarjeta);
+}
+.tarjeta p { margin: 0; }
+.tarjeta .apoyo, .seccion .apoyo { margin: 0; color: var(--color-texto-suave); font-size: var(--texto-sm); }
+.seccion p { margin: 0; }
+.seccion .boton-secundario { justify-self: start; }
+
+/* Sugerencia de instalación. */
+.tarjeta-instalar { gap: var(--esp-2); margin-bottom: var(--esp-4); }
+.tarjeta-instalar .acciones { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--esp-2) var(--esp-4); margin-top: var(--esp-1); }
+
+/* Interruptor: pastilla con un círculo que se corre; el estado también lo dice aria-checked. */
+.interruptor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-4);
+  width: 100%;
+  min-height: var(--objetivo-tactil);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-texto);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.interruptor-pista {
+  position: relative;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 32px;
+  border: 2px solid var(--color-borde-campo);
+  border-radius: var(--radio-pastilla);
+  background: var(--color-superficie);
+  transition: background-color var(--duracion-corta) var(--curva);
+}
+.interruptor-pista::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-borde-campo);
+  transition: transform var(--duracion-corta) var(--curva);
+}
+.interruptor[aria-checked="true"] .interruptor-pista { border-color: var(--color-acento); background: var(--color-acento); }
+.interruptor[aria-checked="true"] .interruptor-pista::after { background: var(--color-sobre-acento); transform: translateX(20px); }
+
+.campo { display: grid; gap: var(--esp-1); }
+.campo label { color: var(--color-texto-suave); font-size: var(--texto-sm); }
+.campo input {
+  min-height: var(--objetivo-tactil);
+  padding: 0 var(--esp-3);
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-campo);
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  font: inherit;
+}
+.seccion-prueba .boton-texto { justify-self: start; }
+
+/* Botones y listas */
+.cabecera-lista { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--esp-2); margin-bottom: var(--esp-2); }
+.botones-lista { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+.boton-principal.boton-chico, .boton-secundario.boton-chico { width: auto; min-height: var(--objetivo-tactil); padding: 0 var(--esp-4); font: inherit; font-weight: var(--peso-extra); border: 0; cursor: pointer; }
+.boton-secundario.boton-chico { border: 1px solid var(--color-borde-campo); font-weight: var(--peso-negrita); }
+button.boton-principal { border: 0; font: inherit; font-weight: var(--peso-extra); cursor: pointer; }
+.boton-peligro { color: var(--color-error); }
+
+/* Campos de formulario */
+.campos-juntos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--esp-3); }
+.campo select, .campo textarea, .campo input { width: 100%; min-height: var(--objetivo-tactil); padding: 0 var(--esp-3); border: 1px solid var(--color-borde-campo); border-radius: var(--radio-campo); background: var(--color-superficie); color: var(--color-texto); font: inherit; }
+.campo textarea { padding: var(--esp-2) var(--esp-3); resize: vertical; }
+.campo [aria-invalid="true"] { border: 2px solid var(--color-error); }
+/* Los campos muestran el foco siempre (el de fecha no siempre cumple :focus-visible al recorrer sus partes). */
+.campo input:focus, .campo input:focus-within, .campo select:focus, .campo textarea:focus { outline: 2px solid var(--color-foco); outline-offset: 2px; }
+.campo .ayuda { margin: 0; color: var(--color-texto-suave); font-size: var(--texto-xs); }
+.error-campo { margin: 0; color: var(--color-error); font-size: var(--texto-sm); font-weight: var(--peso-negrita); }
+.error-campo:empty { display: none; }
+.acciones, .confirmacion .acciones { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--esp-3); }
+.acciones .boton-principal { width: auto; }
+.acciones-extra { display: flex; justify-content: space-between; gap: var(--esp-3); border-top: 1px solid var(--color-linea); padding-top: var(--esp-2); }
+.interruptor-solo { width: auto; }
+.acciones-prueba { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+
+/* Ventanas (<dialog>): confirmaciones y formularios; en el celular, el formulario ocupa la pantalla. */
+.ventana { width: min(100% - 2 * var(--margen-lateral), 440px); max-height: calc(100dvh - 2 * var(--esp-4)); padding: var(--esp-5); border: 0; border-radius: var(--radio-destacada); background: var(--color-fondo); color: var(--color-texto); box-shadow: var(--sombra-tarjeta); overflow: auto; }
+/* El velo oscurece lo que queda detrás en los dos temas: no usa un color que cambie con el tema. */
+.ventana::backdrop { background: rgb(0 0 0 / 0.55); }
+.ventana-confirmar { background: var(--color-superficie); }
+.confirmacion { display: grid; gap: var(--esp-3); }
+.confirmacion p { margin: 0; }
+.ventana-pantalla { width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; border-radius: 0; padding: calc(var(--esp-4) + env(safe-area-inset-top, 0px)) var(--margen-lateral) calc(var(--esp-6) + env(safe-area-inset-bottom, 0px)); }
+.ventana-formulario { width: min(100% - 2 * var(--margen-lateral), 520px); }
+
+.aviso-breve { position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: 60; max-width: calc(100% - 2 * var(--margen-lateral)); padding: var(--esp-3) var(--esp-4); border-radius: var(--radio-campo); background: var(--color-texto); color: var(--color-fondo); font-weight: var(--peso-semi); text-align: center; transform: translateX(-50%); }
+
+/* Navegación · celular: barra fija abajo con los seis destinos. */
+.navegacion {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 20;
+  padding: var(--esp-2) max(var(--esp-2), env(safe-area-inset-right, 0px)) calc(var(--esp-2) + env(safe-area-inset-bottom, 0px)) max(var(--esp-2), env(safe-area-inset-left, 0px));
+  border-top: 1px solid var(--color-linea);
+  background: var(--color-superficie);
+}
+.nav-logo { display: none; }
+.nav-lista {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav-lista li { flex: 1 1 0; min-width: 0; display: flex; justify-content: center; }
+.nav-lista a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  width: 100%;
+  min-height: 60px;
+  border-radius: var(--radio-chico);
+  color: var(--color-texto-suave);
+  font-size: 12px;
+  font-weight: var(--peso-semi);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.nav-icono {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 30px;
+  border-radius: var(--radio-pastilla);
+  transition: background-color var(--duracion-corta) var(--curva);
+}
+.icono {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.nav-lista a[aria-current="page"] { color: var(--color-acento); font-weight: var(--peso-extra); }
+.nav-lista a[aria-current="page"] .nav-icono { background: var(--color-acento-tenue); }
+
+/* Aviso de versión nueva, arriba de la barra. */
+.aviso-version {
+  position: fixed;
+  left: 50%;
+  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  max-width: calc(100% - 2 * var(--margen-lateral));
+  padding: var(--esp-1) var(--esp-2) var(--esp-1) var(--esp-4);
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-pastilla);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra-tarjeta);
+  font-size: var(--texto-sm);
+  white-space: nowrap;
+  width: max-content;
+  transform: translateX(-50%);
+}
+
+/* Navegación · PC: barra lateral compacta que se expande sobre el contenido. */
+@media (min-width: 720px) {
+  body { display: block; }
+  .cabecera { display: none; }
+  html[data-modo-prueba] .navegacion { top: var(--alto-franja); }
+  html[data-modo-prueba] main { min-height: calc(100dvh - var(--alto-franja)); }
+
+  .navegacion {
+    inset: 0 auto 0 0;
+    display: flex;
+    flex-direction: column;
+    width: var(--ancho-nav-compacta);
+    padding: var(--esp-5) var(--esp-3);
+    overflow: hidden;
+    border-top: 0;
+    border-right: 1px solid var(--color-linea);
+    transition: width var(--duracion-media) var(--curva), box-shadow var(--duracion-media) var(--curva);
+  }
+  .navegacion:hover, .navegacion:focus-within {
+    width: var(--ancho-nav-abierta);
+    box-shadow: var(--sombra-tarjeta);
+  }
+  .nav-logo { display: flex; padding: 0 var(--esp-2) var(--esp-6); }
+
+  .nav-lista { flex: 1; flex-direction: column; align-items: stretch; gap: var(--esp-1); }
+  .nav-lista li { flex: 0 0 auto; display: block; }
+  .nav-item-ajustes { margin-top: auto; }
+  .nav-lista a {
+    text-align: left;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--esp-3);
+    min-height: var(--alto-boton);
+    padding: 0 var(--esp-3);
+    border-radius: var(--radio-pastilla);
+    font-size: var(--texto-md);
+  }
+  .nav-icono { width: 24px; height: 24px; flex: 0 0 auto; }
+  .nav-lista a[aria-current="page"] { background: var(--color-acento-tenue); }
+  .nav-lista a[aria-current="page"] .nav-icono { background: none; }
+  /* Compacta: los nombres quedan para los lectores de pantalla; al abrirse, a la vista. */
+  .nav-nombre, .nav-logo .logo-texto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .navegacion:hover .nav-nombre, .navegacion:focus-within .nav-nombre,
+  .navegacion:hover .nav-logo .logo-texto, .navegacion:focus-within .nav-logo .logo-texto {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+  }
+
+  /* La barra abierta corre el contenido en vez de taparlo; el contenido va en una columna centrada. */
+  main {
+    min-height: 100dvh;
+    margin-left: var(--ancho-nav-compacta);
+    padding: var(--esp-8) var(--esp-10);
+    align-items: center;
+    transition: margin-left var(--duracion-media) var(--curva);
+  }
+  body:has(.navegacion:hover, .navegacion:focus-within) main { margin-left: var(--ancho-nav-abierta); }
+  main > * { width: min(100%, 480px); }
+  .boton-principal { width: auto; }
+  .aviso-version { bottom: var(--esp-6); left: calc(50% + var(--ancho-nav-compacta) / 2); }
+
+  .aviso-breve { bottom: var(--esp-6); left: calc(50% + var(--ancho-nav-compacta) / 2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; }
+}

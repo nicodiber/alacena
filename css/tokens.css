@@ -1,0 +1,124 @@
+/*
+ * tokens.css · Tokens de diseño de Alacena
+ *
+ * Única fuente de colores, tipografía, espaciado, radios, sombras y movimiento.
+ * Los componentes usan siempre estas variables, nunca valores sueltos.
+ * Un cambio acá necesita la aprobación del responsable del proyecto (AGENTS.md).
+ *
+ * Tema: sigue al sistema y se puede forzar con data-tema="claro" u "oscuro"
+ * en <html>. La paleta es provisoria (base instalable): tonos cálidos de madera y harina.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Color · superficies y texto */
+  --color-fondo: #FBF7F1;
+  --color-superficie: #FFFFFF;
+  --color-texto: #26190F;
+  --color-texto-suave: #6B5744;
+  --color-linea: #E6DACB;           /* separadores decorativos */
+  --color-borde-campo: #8C7660;     /* bordes de campos y controles (≥ 3:1) */
+
+  /* Color · marca y acciones */
+  --color-acento: #8A4B14;          /* botones, enlaces, selección, foco */
+  --color-sobre-acento: #FFFFFF;
+  --color-sobre-acento-suave: #F2DEC8;
+  --color-foco: var(--color-acento);
+
+  /* Color · semánticos (texto y pastillas; siempre con signo, ícono o rótulo) */
+  --color-alerta: #875A00;
+  --color-error: #B3402A;
+
+  /* Sombras */
+  --sombra-tarjeta: 0 1px 2px rgba(38, 25, 15, 0.06), 0 6px 20px rgba(38, 25, 15, 0.06);
+  --borde-tarjeta: 1px solid transparent;
+
+  /* Tipografía · Figtree (OFL), servida desde el propio sitio */
+  --fuente: 'Figtree', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --peso-normal: 400;
+  --peso-medio: 500;
+  --peso-semi: 600;
+  --peso-negrita: 700;
+  --peso-extra: 800;
+  --texto-xs: 0.8125rem;    /* 13 px · mínimo para textos de apoyo */
+  --texto-sm: 0.875rem;     /* 14 px */
+  --texto-md: 1rem;         /* 16 px · cuerpo */
+  --texto-lg: 1.125rem;     /* 18 px */
+  --texto-xl: 1.5rem;       /* 24 px */
+  --texto-2xl: 1.875rem;    /* 30 px */
+  --interlineado-ajustado: 1.15;
+  --interlineado: 1.5;
+
+  /* Espaciado (base 4 px) */
+  --esp-1: 4px;
+  --esp-2: 8px;
+  --esp-3: 12px;
+  --esp-4: 16px;
+  --esp-5: 20px;
+  --esp-6: 24px;
+  --esp-8: 32px;
+  --esp-10: 40px;
+  --margen-lateral: 16px;
+
+  /* Radios */
+  --radio-chico: 8px;
+  --radio-campo: 14px;
+  --radio-tarjeta: 20px;
+  --radio-destacada: 24px;
+  --radio-pastilla: 999px;
+
+  /* Tamaños de interacción */
+  --objetivo-tactil: 44px;
+  --alto-boton: 48px;
+  --alto-boton-principal: 54px;
+  --ancho-maximo: 1200px;
+
+  /* Movimiento */
+  --duracion-corta: 150ms;
+  --duracion-media: 250ms;
+  --curva: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    color-scheme: dark;
+    --color-fondo: #1A1410;
+    --color-superficie: #251D17;
+    --color-texto: #F3E9DD;
+    --color-texto-suave: #C2AE98;
+    --color-linea: #3D3126;
+    --color-borde-campo: #8F7A64;
+    --color-acento: #E9B57C;
+    --color-sobre-acento: #24160A;
+    --color-sobre-acento-suave: #5A3A1C;
+    --color-alerta: #ECC25C;
+    --color-error: #F2907A;
+    --sombra-tarjeta: none;
+    --borde-tarjeta: 1px solid #3D3126;
+  }
+}
+
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+  --color-fondo: #1A1410;
+  --color-superficie: #251D17;
+  --color-texto: #F3E9DD;
+  --color-texto-suave: #C2AE98;
+  --color-linea: #3D3126;
+  --color-borde-campo: #8F7A64;
+  --color-acento: #E9B57C;
+  --color-sobre-acento: #24160A;
+  --color-sobre-acento-suave: #5A3A1C;
+  --color-alerta: #ECC25C;
+  --color-error: #F2907A;
+  --sombra-tarjeta: none;
+  --borde-tarjeta: 1px solid #3D3126;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duracion-corta: 0ms;
+    --duracion-media: 0ms;
+  }
+}

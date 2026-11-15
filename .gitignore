@@ -1,0 +1,8 @@
+node_modules/
+test-results/
+.nombres-prohibidos.txt
+# Planillas y respaldos: los datos reales nunca entran al repo (solo datos ficticios en datos-demo/).
+*.xlsx
+*.csv
+respaldo*.json
+!datos-demo/**
